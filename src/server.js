@@ -17,4 +17,4 @@ io.on("connection", socket => {
     console.log(`Socket Conectado: ${socket.id}`);
 });
 
-server.listen(8080);
+server.listen(8080, () => console.log("Servidor em execução."));

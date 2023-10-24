@@ -114,12 +114,13 @@ main .container header input {
     box-shadow: 2px 2px 3px var(--gray3);
 }
 
-/* Messages Box */
-main .container .messages {
+/* Chat Box */
+main .container .chatBox {
     height: 80%;
     overflow-y: scroll;
+    scroll-behavior: smooth;
 }
-main .container .message {
+main .container .chatBox .message {
     display: flex;
     flex-direction: column;
     width: fit-content;
@@ -130,7 +131,7 @@ main .container .message {
     font-size: 1.4rem;
     margin-top: 1rem;
 }
-main .container .message .username {
+main .container .chatBox .message .username {
     color: var(--main);
     font-weight: 800;
     margin-bottom: 3px;

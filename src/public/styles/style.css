@@ -17,6 +17,7 @@
     --gray1: #262626;
     --gray2: #201E1E;
     --gray3: #161616;
+    --placeholder: #63635d;
     --grayTransl: #75756b80;
 }
 
@@ -43,6 +44,13 @@ input {
     color: var(--white);
     border-radius: 20px;
     font-family: 'Red Hat Display', sans-serif;
+}
+button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: none;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -89,6 +97,7 @@ main .container {
     border-radius: 8px;
     background-color: var(--gray2);
     box-shadow: 3px 3px 10px #000000;
+    transition: all .2s;
 }
 
 /* Header */
@@ -138,6 +147,11 @@ main .container .chatBox .message .username {
 }
 
 /* New Message */
+main .container .new-message {
+    width: 100%;
+    display: flex;
+    gap: .8rem;
+}
 main .container .new-message input {
     width: 100%;
     background-color: var(--gray1);
@@ -146,12 +160,23 @@ main .container .new-message input {
     font-size: 1.5rem;
     box-shadow: 2px 2px 3px var(--gray3);
 }
+main .container .new-message button {
+    min-width: 4.2rem;
+    min-height: 4.2rem;
+    border-radius: 50%;
+    color: var(--main);
+    background-color: var(--gray1);
+    box-shadow: 2px 2px 3px var(--gray3);
+}
 
 /*--------------------------------------------------------------------------*/
 
 /* Responsive */
 
-@media (max-width: 768px) {
+@media (max-width: 425px) {
+    html {
+        font-size: 50%;
+    }
 }
 
 /*--------------------------------------------------------------------------*/

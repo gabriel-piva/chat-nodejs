@@ -2,10 +2,8 @@ const socket = io('http://localhost:8080');
 
 const chatBox = document.querySelector('#chatBox');
 const sendMessage = () => {
-    console.log('Send')
     const username = document.querySelector('#username').value;
     const newMessage = document.querySelector('#new-message').value;
-
     if(username.length && newMessage.length) {
         let messageObj = {
             username: username,
@@ -32,5 +30,6 @@ const handleKeydown = (e) => {
 }
 
 socket.on('receivedMessage', (message) => renderMessage(message));
-socket.on('previousMessages', (messages) => messages.forEach(message => renderMessage(message)))
+socket.on('previousMessages', (messages) => messages.forEach(message => renderMessage(message)));
 document.addEventListener('keydown', handleKeydown);
+document.querySelector('#btn-send').addEventListener('click', sendMessage);

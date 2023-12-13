@@ -1,8 +1,14 @@
+// --------------------------------------------------------------------------
+
 const express = require('express');
 const app = express();
 const path = require('path');
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
+
+// --------------------------------------------------------------------------
+
+// Definindo a página do chat
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'public'));
@@ -10,18 +16,38 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
 app.use('/', (req, res) => {
-    res.render('index.html');
-})
+    const sala = req.query.sala || 'global';
+    res.render('index.html', { sala });
+  });
 
-const messages = [];
+// --------------------------------------------------------------------------
+
+const rooms = {};
+
 io.on('connection', socket => {
     console.log(`Socket Conectado: ${socket.id}`);
-    socket.emit('previousMessages', messages);
+
+    socket.on('joinRoom', sala => {
+        socket.join(sala);
+
+        if (!rooms[sala]) {
+            rooms[sala] = [];
+        }
+        socket.emit('previousMessages', rooms[sala]);
+    });
+
     socket.on('sendMessage', data => {
-        messages.push(data);
-        socket.broadcast.emit('receivedMessage', data);
+        const sala = Object.keys(socket.rooms)[1];
+        rooms[sala].push(data);
+        io.to(sala).emit('receivedMessage', data);
     });
 
 });
 
+// --------------------------------------------------------------------------
+
+// Inicia o Server
+
 server.listen(8080, () => console.log('Servidor em execução.'));
+
+// --------------------------------------------------------------------------

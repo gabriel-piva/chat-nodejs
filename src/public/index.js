@@ -1,4 +1,18 @@
-const socket = io('http://localhost:8080');
+// --------------------------------------------------------------------------
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const sala = urlParams.get('sala');
+
+const socket = io('http://localhost:8080', {
+    query: { sala }
+});
+
+socket.emit('joinRoom', sala);
+
+// --------------------------------------------------------------------------
+
+// Chat Box Functions
 
 const chatBox = document.querySelector('#chatBox');
 const sendMessage = () => {
@@ -29,7 +43,23 @@ const handleKeydown = (e) => {
     }   
 }
 
-socket.on('receivedMessage', (message) => renderMessage(message));
+// --------------------------------------------------------------------------
+
+// Socket Events
+
+socket.on('receivedMessage', (message) => {
+    const username = document.querySelector('#username').value;
+    if (message.username !== username) {
+        renderMessage(message);
+    }
+});
 socket.on('previousMessages', (messages) => messages.forEach(message => renderMessage(message)));
+
+// --------------------------------------------------------------------------
+
+// Page Events
+
 document.addEventListener('keydown', handleKeydown);
 document.querySelector('#btn-send').addEventListener('click', sendMessage);
+
+// --------------------------------------------------------------------------

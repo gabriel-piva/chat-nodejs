@@ -15,8 +15,8 @@
         <main>
             <div class="container">
                 <header>
-                    <span><strong>Chat</strong> Geral</span>
-                    <input type="text" placeholder="Nome" name="username" id="username" autocomplete="off">
+                    <span><strong>Chat: </strong><span id="room-id"></span></span>
+                    <button id="btn-modal" type="button"><i class='bx bxs-chat'></i></button>
                 </header>
                 <div class="chatBox" id="chatBox"></div>
                 <div class="new-message">
@@ -25,5 +25,12 @@
                 </div>
             </div>
         </main>
+        <dialog id="modal">
+            <div class="title">Entrar no Chat</div>
+            <input type="text" name="username" id="username" placeholder="Username" autocomplete="off">
+            <input type="text" name="room" id="room" placeholder="Room" autocomplete="off">
+            <button type="button" id="btn-connect">Conectar</button>
+        </dialog>
+        <div id="overlay"></div>
     </body>
 </html>

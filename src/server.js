@@ -16,9 +16,9 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
 app.use('/', (req, res) => {
-    const sala = req.query.sala || 'global';
+    const sala = req.query.sala;
     res.render('index.html', { sala });
-  });
+});
 
 // --------------------------------------------------------------------------
 
@@ -37,7 +37,7 @@ io.on('connection', socket => {
     });
 
     socket.on('sendMessage', data => {
-        const sala = Object.keys(socket.rooms)[1];
+        const sala = data.room;
         rooms[sala].push(data);
         io.to(sala).emit('receivedMessage', data);
     });

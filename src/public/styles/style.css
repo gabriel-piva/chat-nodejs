@@ -12,7 +12,6 @@
     --main: #639A58;
     --mainTransl: #639a5833;
     --mainDarker: #284d21;
-    --alt: #713090;
     --white: #F1F1F1;
     --gray1: #262626;
     --gray2: #201E1E;
@@ -51,6 +50,7 @@ button {
     align-items: center;
     cursor: pointer;
     border: none;
+    font-family: 'Red Hat Display', sans-serif;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -112,15 +112,23 @@ main .container header {
 main .container header strong {
     color: var(--main);
 }
-main .container header input {
+main .container header button {
     width: 50%;
     background-color: var(--gray1);
     border-radius: 20px;
+    color: var(--main);
     padding: 0.8rem 1.5rem;
-    font-size: 1.3rem;
-    min-width: 120px;
-    max-width: 210px;
+    min-width: 80px;
+    max-width: 100px;
     box-shadow: 2px 2px 3px var(--gray3);
+}
+main .container header button i {
+    font-size: 1.55rem;
+}
+main .container header button:hover {
+    background-color: var(--mainTransl);
+    color: var(--white);
+    transition: all 0.3s ease;
 }
 
 /* Chat Box */
@@ -167,6 +175,75 @@ main .container .new-message button {
     color: var(--main);
     background-color: var(--gray1);
     box-shadow: 2px 2px 3px var(--gray3);
+}
+
+/*--------------------------------------------------------------------------*/
+
+/* Modal */
+
+@keyframes fall {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -40px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+dialog {
+    border: none;
+    margin: auto;
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--gray3);
+    border-radius: 10px;
+    box-shadow: 2px 2px 8px #0e0e0e;
+    width: 90%;
+    max-width: 300px;
+    min-width: 270px;
+    animation: fall .15s;
+    outline: none;
+    z-index: 5000;
+}  
+dialog input {
+    width: 100%;
+    background-color: var(--gray2);
+    border-radius: 10px;
+    padding: 1rem;
+    font-size: 1.3rem;
+    margin-bottom: 1.8rem;
+}
+dialog .title {
+    color: var(--white);
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+} 
+dialog button {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 5px;
+    background-color: var(--main);
+    color: var(--white);
+    transition: background-color 0.3s ease;
+} 
+dialog button:hover {
+    background-color: var(--mainDarker);
+}
+  
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 100dvh;
+    background-color: rgba(0, 0, 0, 0.4); 
+    backdrop-filter: blur(0.1px);
+    display: none;
+    z-index: 4000;
 }
 
 /*--------------------------------------------------------------------------*/

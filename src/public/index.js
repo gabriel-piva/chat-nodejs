@@ -2,45 +2,25 @@
 
 // Socket Connection
 
-let socket = null;
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const sala = urlParams.get('sala');
+const username = urlParams.get('username')
 
-const connectToSocket = (room) => {
-    socket = io('http://localhost:8080', {
-        query: { sala: room }
-    });
-    socket.on('receivedMessage', (message) => {
-        if (message.username !== currentUsername) {
-            renderMessage(message);
-        }
-    });
-    socket.on('previousMessages', (messages) => messages.forEach(message => renderMessage(message)));
-    return socket;
-};
+const socket = io('http://localhost:8080', {
+    query: { sala, username }
+});
 
 // --------------------------------------------------------------------------
 
 // Connect to a Room 
 
-let currentUsername = '';
-let currentRoom = '';
-const connectRoom = () => {
+const changeRoom = () => {
     let room = document.querySelector('#room').value;
     room = room.length ? room : 'Global';
-    currentRoom = room;
     const username = document.querySelector('#username').value;
-
     if (username.length) {
-        const queryParams = `?sala=${room}`;
-        window.history.pushState(null, null, queryParams);
-        if (socket) {
-            chatBox.innerHTML = '';
-            socket.disconnect();
-        }
-        socket = connectToSocket(room);
-        socket.emit('joinRoom', room);
-        document.querySelector('#room-id').innerHTML = room;
-        currentUsername = username;
-        closeModal();
+        window.location.href = `/?sala=${room}&username=${username}`;
     }
 };
 
@@ -53,9 +33,8 @@ const sendMessage = () => {
     const newMessage = document.querySelector('#new-message').value;
     if(newMessage.length) {
         let messageObj = {
-            username: currentUsername,
-            message: newMessage,
-            room: currentRoom
+            username: username,
+            message: newMessage
         }
         renderMessage(messageObj);
         socket.emit('sendMessage', messageObj);
@@ -87,6 +66,13 @@ const overlay = document.querySelector('#overlay');
 const openModal = () => {
     modal.showModal();
     overlay.style.display = 'block';
+    if(username) {
+        document.querySelector('#username').value = username;
+    }
+    if(sala) {
+        document.querySelector('#room').value = sala;
+    }
+
 }
 const closeModal = () => {
     modal.close();
@@ -94,13 +80,31 @@ const closeModal = () => {
 }
 
 document.querySelector('#btn-modal').addEventListener('click', openModal);
-document.querySelector('#btn-connect').addEventListener('click', connectRoom);
+document.querySelector('#btn-connect').addEventListener('click', changeRoom);
+
+// --------------------------------------------------------------------------
+
+// Socket Events
+
+socket.on('receivedMessage', (message) => {
+    if (message.username !== username) {
+        renderMessage(message);
+    }
+});
+socket.on('previousMessages', (messages) => messages.forEach(message => renderMessage(message)));
 
 // --------------------------------------------------------------------------
 
 // Page Events
 
-window.onload = openModal;
+window.onload = () => {
+    if(!username) {
+        openModal()
+    } else {
+        socket.emit('joinRoom', sala);
+        document.querySelector('#room-id').innerHTML = sala;
+    }
+};
 document.addEventListener('keydown', handleKeydown);
 document.querySelector('#btn-send').addEventListener('click', sendMessage);
 

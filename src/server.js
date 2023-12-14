@@ -17,7 +17,8 @@ app.set('view engine', 'html');
 
 app.use('/', (req, res) => {
     const sala = req.query.sala;
-    res.render('index.html', { sala });
+    const username = req.query.username;
+    res.render('index.html', { sala, username });
 });
 
 // --------------------------------------------------------------------------
@@ -37,7 +38,8 @@ io.on('connection', socket => {
     });
 
     socket.on('sendMessage', data => {
-        const sala = data.room;
+        const roomsArray = [...socket.rooms];
+        const sala = roomsArray[1];
         rooms[sala].push(data);
         io.to(sala).emit('receivedMessage', data);
     });

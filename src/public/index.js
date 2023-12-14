@@ -4,7 +4,7 @@
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
-const sala = urlParams.get('sala');
+let sala = urlParams.get('sala');
 const username = urlParams.get('username')
 
 const socket = io('http://localhost:8080', {
@@ -98,6 +98,9 @@ socket.on('previousMessages', (messages) => messages.forEach(message => renderMe
 // Page Events
 
 window.onload = () => {
+    if(!sala) {
+        sala = 'Global';
+    }
     if(!username) {
         openModal()
     } else {

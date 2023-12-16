@@ -2,8 +2,6 @@
 
 Projeto de um chat em tempo real feito com NodeJS, usando Socket.io e Express. 
 
-...
-
 ### Tecnologias
 <div style="display: flex; gap: 5px;">
     <img src="https://img.shields.io/badge/NodeJS-339933?style=for-the-badge&logo=node.js&logoColor=339933&labelColor=070707" alt="NodeJS">
@@ -12,9 +10,13 @@ Projeto de um chat em tempo real feito com NodeJS, usando Socket.io e Express.
 </div>
 
 ### Execução
+Para executar o projeto basta clonar o repositório com o link abaixo:
 
-//TODO
+```bash
+git clone https://github.com/gabriel-piva/chat-nodejs.git
+```
 
-### Referências
+Em seguida, navegue até a pasta, instale as dependências com `npm install` e inicie a aplicação com `npm start`. 
+É necessário o [Node.js](https://nodejs.org/pt-br) instalado para executar esses comandos.
 
-//TODO
+Por fim, abra `http://localhost:8080/` em algum servidor web.
